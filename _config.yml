@@ -3,9 +3,9 @@
 # Site wide configuration
 ####################################
 #
-title: Leonids
+title: sush
 email:
-description: A simple and awesome blog theme powered by jekyll.
+description: 勿忘初心
 url: # the base hostname & protocol for your site
 
 
@@ -33,10 +33,10 @@ kramdown:
 ####################################
 #
 owner:
-  name: Leonids
-  avatar: leonids-logo.png
-  job: "A jekyll theme"
-  bio: "A simple and awesome blog theme powered by jekyll."
+  name: 白告君丶
+  avatar: sush.png
+  job: "大学狗，程序员，伪文青"
+  bio: "死后自会长眠"
   email:
   disqus-shortname:
   twitter: #username
@@ -48,9 +48,9 @@ owner:
     ad-client:
     ad-slot:
   bing-verify:
-  github: #username
+  github: ssusH
   gitlab: #username
-  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  stackoverflow: #123456/username
   linkedin: #username
   skype: #username
   xing: #username
@@ -59,11 +59,11 @@ owner:
   tumblr: #username
   pinterest: #username
   foursquare: #username
-  steam: #username
+  steam: ssush
   dribbble: #username
   youtube: #username
   soundcloud: #username
-  weibo: #username
+  weibo: u/2822758547
   flickr: #username
   500px: #username
   codepen: #username
