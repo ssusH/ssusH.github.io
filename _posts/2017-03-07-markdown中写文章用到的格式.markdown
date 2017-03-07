@@ -1,0 +1,86 @@
+---
+layout: post
+title: "markdown中写文章用到的各种标记"
+excerpt: "介绍markdown的基本语法"
+categories: [Jeckll,Markdown]
+author: sush
+comments: true
+
+---
+## 标题
+标题能显示出文章的结构。行首插入 1-6 个 # ，每增加一个 # 表示更深入层次的内容，对应到标题的深度由 1-6 阶。
+
+{% highlight ruby %}
+# 一级标签
+## 二级标签
+### 三级标签
+#### 四级标签
+##### 五级标签
+{% endhighlight %}
+以此类推，总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。
+
+## 图片
+`![Smithsonian Image]({{site.url}}/img/sush.png)`
+
+
+
+效果可以显示如下图片
+![Smithsonian Image]({{site.url}}/img/sush.png)
+
+## 加粗，斜体，删除线
+`**加粗**`  ===>**加粗**  
+
+`*斜体*`===>*斜体*  
+
+`~~删除线~~` ===>~~删除线~~   
+
+## 特殊样式
+
+
+输入`>引用内容`
+>引用内容
+
+## Markdown中换行操作
+先打两个空格，然后输入回车。便可以换行。
+
+## 代码段
+在前面输入四个空格或者一个制表符缩进
+    //代码注释``
+    int i = 0;
+
+
+## 列表类型
+
+`* 输入内容` ==>  
+
+* Sartorial hoodie
+
+数字带一个点后面加一个空格，可以显示出一个父级标题，在下一行输入制表符加空格然后使用同样格式则可以生成其子级标题
+
+1. Item one
+   1. sub item one
+   2. sub item two
+       1. sub sub item one
+   3. sub item three
+2. Item two
+
+
+## 插入链接
+`[baidu](baidu.com)`==>[baidu](https://www.baidu.com)
+
+## 代码框
+上下两行空出来，然后前排输入两个制表符即可
+
+    int i = 0;
+    //输入代码
+    for(int i = 0,i<10;i++)
+
+## 分割线
+`***`
+下面是分割线
+
+***
+
+## 补一些网上的对比图
+
+![对比图](https://pic3.zhimg.com/82da2aedf52d474b213cc31eb8839216_b.png)
