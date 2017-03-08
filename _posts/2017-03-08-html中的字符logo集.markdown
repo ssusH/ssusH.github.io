@@ -1,0 +1,40 @@
+---
+layout: post
+title: "html中的图标字体库-Font Awesome"
+excerpt: "在制作个人主页的时候，想替换掉原来模板里面主页上的可以定位到我社交网络去的可点击项的logo，并且想自己添加一些自定义的logo进去。  
+
+但是找到源文件，发现哪里并没有图片。也没有文字，而是直接使用了样式表就完成了对logo的输出。"
+categories: [html]
+author: sush
+comments: true
+---
+
+在制作个人主页的时候，想替换掉原来模板里面主页上的可以定位到我社交网络去的可点击项的logo，并且想自己添加一些自定义的logo进去。  
+
+但是找到源文件，发现哪里并没有图片。也没有文字，而是直接使用了样式表就完成了对logo的输出。  
+
+于是找到样式表查看其中代码：  
+
+    fa-github-square:before{content:"\f092"}
+
+发现是这样一串代码，并且其他图标的样式也是同样格式的代码。只有`content`后面的`/fxxx`的数字不同。  
+
+那么肯定就是这个数字是引起图标变化的主要因素了。它一定是对应着某一张表或者其他的什么能储存图像的数据库中的数据。  
+
+带着这个疑问，我看了样式表最前面的一些代码，看看这个文件有没有引用其他的文件或者数据来源。  
+
+    @font-face{font-family:'FontAwesome';src:url('../fonts/fontawesome-webfont.eot?v=4.4.0');src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.4.0')  
+     format('embedded-opentype'),url('../fonts/fontawesome-webfont.woff2?v=4.4.0') format('woff2'),url('../fonts/fontawesome-webfont.woff?v=4.4.0')  
+      format('woff'),url('../fonts/fontawesome-webfont.ttf?v=4.4.0') format('truetype'),url('../fonts/fontawesome-webfont.svg?v=4.4.0#fontawesomeregular')  
+         format('svg');font-weight:normal;font-style:normal}
+
+果然发现它引用了根目录下fonts文件夹下的若干文件。  
+并且这些文件都有同样的文件名开头`fontawesome-webfont`。  
+
+于是百度之。。。  
+
+
+
+发现这个[Font Awesoome](http://www.bootcss.com/p/font-awesome/)是一个图标字体库，可以提供可缩放的矢量图标，并且可以使用CSS所提供的所有特性对它们进行更改，包括：大小、颜色、阴影或者其它任何支持的效果。然后用这个图标字库可以解决很多的图标问题，并且体积小，能直接用css样式控制。  
+
+并且一直在被维护更新。

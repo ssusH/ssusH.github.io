@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Jekyll使用小贴士（1）"
+excerpt: "开一个小的坑，写下在学习使用jekyll中遇到的问题。以及解决办法，基本以一问一答的形式来写。"
+categories: [Jekyll]
+author: sush
+comments: true
+
+---
+
+开一个小的坑，写下在学习使用jekyll中遇到的问题。以及解决办法，基本以一问一答的形式来写。想到多少写多少，有后续补充的话就在后续的章节中写。  
+
+***
+
+## Q：Jekyll中是怎么声明变量的啊?  
+
+A：首先要明确一个问题，Jekyll用的是一种名叫[Liquid](https://liquid.bootcss.com/) 的模板语言。而jekyll本身是一个简单的免费的Blog生成工具，类似WordPress。但是和WordPress又有很大的不同，原因是jekyll只是一个生成静态网页的工具，不需要数据库支持。但是可以配合第三方服务,例如Disqus。最关键的是jekyll可以免费部署在Github上，而且可以绑定自己的域名。  
+
+所以这个问题就变成了***Liquid中是怎么声明变量的啊?***  
+那么在Liquid中声明变量的语法是这样的  
+
+> {  % assign my_variable = false %}
+
+也就是使用assign这个关键字声明变量。并且值得注意的是，liquid中的语法基本都要包括一个大的花括号以及两个分号。代码要带这其中书写。
+
+***
+
+## Q:Jekyll中***{  % for page in site.pages %} {  % if page.title %}*** 这条语句。site.pages到底指的是哪些page类?
+
+A：首先关于这个问题要先提到jekyll的运行机制。jekyll在运行之前，先回遍历所有文件夹下的所有文件。读取配置文件,读取其头信息然后把有用信息存入内存中。也就是一个初始化的操作。  
+也正是头信息开始让 Jekyll 变的很酷。任何只要包含 [YAML 头信息](http://jekyllcn.com/docs/frontmatter/)的文件在 Jekyll 中都能被当做一个特殊的文件来处理。头信息必须在文件的开始部分，并且需要按照 YAML 的格式写在两行三虚线之间。  
+
+如下：
+
+    ---
+    layout: post
+    title: Blogging Like a Hacker
+    ---
+
+然后本问题中的site.pages中的page指的就是所有在YAML头信息中  ***layout:page***  这样声明过的文件。这些声明为page的头文件，就会被jekyll读下来，存在pages当中。
+
+***
+
+## Q：jekyll生成的html网页的入口在哪?  
+
+A：根目录下的index.html文件。  
+
+***
+
+## Q：为什么我在运行Jekyll的时候，提示我没有安装pygment?  
+
+A：pygment是一个高亮包。Jekyll中使用它，主要是因为在写文章的时候，用的Markdown标记语言是支持这个高亮包的。  
+
+如果你没有安装它，请在cmd中输入~~"gem install pygment"~~“gem install rb-pygment”。现在在gem服务器上的pygment已经升级。改名了。  
+
+然后安装完成之后，并没有结束工作。你还需要在Jekyll的配置文件中去更改一下高亮包的变量。  
+
+在你的Jekyll模板的根目录下找到**_config.yml**，然后打开它。  
+
+找到  
+
+>highlighter:      pygment
+
+如果你安装的是pygment则改为pygment  
+
+如果你安装的是rb-pygment则改为rb-pygment。  
+
+其他高亮包同理。

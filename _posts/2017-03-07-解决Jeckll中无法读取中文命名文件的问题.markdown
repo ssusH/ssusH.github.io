@@ -2,7 +2,7 @@
 layout: post
 title: "解决Jeckll中无法读取中文命名文件的问题"
 excerpt: "最近在使用jekyll在本地预览自己写的博客无法正常打开，而提交到github上却可以正常解析。看了一下发现是文件写的博客有什么变化，原来是因为博客的markdown文件使用了中文文件名，jekyll无法正常解析出现乱码"
-categories: [Jeckll]
+categories: [Jekyll]
 author: sush
 comments: true
 

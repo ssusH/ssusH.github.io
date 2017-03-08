@@ -2,7 +2,7 @@
 layout: post
 title: "markdown中写文章用到的各种标记"
 excerpt: "介绍markdown的基本语法"
-categories: [Jeckll,Markdown]
+categories: [Jekyll,Markdown]
 author: sush
 comments: true
 
