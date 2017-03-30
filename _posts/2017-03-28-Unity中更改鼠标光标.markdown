@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Unity中更改鼠标光标"
+excerpt: "在游戏或者应用中，我们经常会遇到这样的情况。就是鼠标光标的变化。比如光标变成一个抓手形状之类的。那么遇到这种情况应该如何改变鼠标光标呢。"
+categories: [Unity]
+comments: true
+---
+在游戏或者应用中，我们经常会遇到这样的情况。就是鼠标光标的变化。比如光标变成一个抓手形状之类的。那么遇到这种情况应该如何改变鼠标光标呢。
+
+用Cursor类中的方法进行改变即可。  
+
+
+    Cursor.SetCursor(texture,hotspot,cursorMode);
+
+texture :鼠标光标图片  
+hotspot :光标偏移量  
+cursorMode :鼠标模式

@@ -1,0 +1,76 @@
+---
+layout: post
+title: "Unity中加载本地资源的思路"
+excerpt: "在游戏中，我们或许会遇到这样的需求。比如你需要加载一些本地资源，到游戏当中去做游戏资源使用。这些资源，可以是图片、音频、视频、模型、文本等等。那么要怎么样，才能加载你放在本地或者服务器上的的资源呢?"
+categories: [Unity]
+comments: true
+---
+
+#### 在游戏中，我们或许会遇到这样的需求。比如你需要加载一些本地资源，到游戏当中去做游戏资源使用。这些资源，可以是图片、音频、视频、模型、文本等等  
+#### 那么要怎么样，才能加载你放在本地或者服务器上的的资源呢?
+
+这里我们引入一个类，叫做`www`类来帮助我们实现加载本地资源的目的。  
+
+## WWW 网页
+
+简单的访问网页的类。  
+这是一个检索URL内容的小工具模块。  
+你通过连接WWW(url)在后台开始下载，并且返回一个新的WWW对象。  
+你可以检查isDone属性来查看是否已经下载完成，或者yield自动等待下载物体，直到它被下载完成（不会影响游戏的其余部分）。  
+如果你想从web服务器上获取一些数据，例如高分列表或者调用主页，可以使用这个，也有一些功能可以使用从web上下载的图片来创建一个纹理，或者下载或加载新的web播放器数据文件。   
+WWW类可以用来发送GET和POST请求到服务器，WWW类默认使用GET方法，并且如果提供一个postData参数可用POST方法。   
+
+WWW类支持4种读取的协议。分别是  
+    1. Http：//
+    2. Https：//
+    3. Ftp：//
+    4. file：//
+
+我们本地读取的话，要用到的就是`file`的协议。  
+
+    public IEnumerator LoadData()
+    {
+       //在C#中，需要用到yield的话，必须建立在IEnumerator类中执行。
+       WWW www = new WWW(url);
+       //定义www为WWW类型并且等于所下载下来的WWW中内容。
+       yield return www;
+       //返回所下载的www的值
+       renderer.material.mainTexture = www.texture;
+       //将下载下来的WWW中的图片赋予到默认物体的材质上进行渲染出来
+    }
+
+
+然后，如果你需要加载一些奇怪的资源。那么就要用到`assetbundle`
+先把你的资源打包成assetbundle格式的文件，然后再使用`www`去读取它。
+
+下面贴上，一个如何打包的脚本。  
+
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
+
+    public class ExportAssetBundles : MonoBehaviour {
+
+        [MenuItem("Assets/Build AssetBundle From Selection")]
+        static void ExportResourceRGB2()
+        {
+            // 打开保存面板，获得用户选择的路径  
+            string path = EditorUtility.SaveFilePanel("Save Resource", "", "New Resource", "assetbundle");
+
+            if (path.Length != 0)
+            {   
+                // 选择的要保存的对象  
+                Object[] selection = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
+                //打包  
+                BuildPipeline.BuildAssetBundle(Selection.activeObject, selection, path, BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets, BuildTarget.StandaloneWindows);
+            }
+        }
+
+    }
+
+这里核心的方法就是`BuildPipeline.BuildAssetBundle()`这个方法  
+
+打包之后，再用下面这条语句读取这个assetBundle包即可。  
+
+    www.assetBundle.mainAsset;
