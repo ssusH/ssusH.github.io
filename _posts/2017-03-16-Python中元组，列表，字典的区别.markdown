@@ -10,20 +10,20 @@ Python中,有3种内建的数据结构:列表、元组和字典。
 ## 1.列表  
  list是处理一组有序项目的数据结构，即你可以在一个列表中存储一个序列的项目。列表中的项目。列表中的项目应该包括在方括号中，这样python就知道你是在指明一个列表。一旦你创建了一个列表，你就可以添加，删除，或者是搜索列表中的项目。由于你可以增加或删除项目，我们说列表是可变的数据类型，即这种类型是可以被改变的，并且列表是可以嵌套的。  
 实例：
-    #coding=utf-8
-    animalslist=['fox','tiger','rabbit','snake']
-    print "I don't like these",len(animalslist),'animals...'
+      #coding=utf-8
+      animalslist=['fox','tiger','rabbit','snake']
+      print "I don't like these",len(animalslist),'animals...'
 
-    for items in animalslist:
-    print items,
+      for items in animalslist:
+      print items,
 
-    print "\n操作后"   
-    #对列表的操作,添加,删除，排序
-    animalslist.append('pig')
-    del animalslist[0]
-    animalslist.sort()
-    for i in range(0,len(animalslist)):
-        print animalslist[i],
+      print "\n操作后"   
+      #对列表的操作,添加,删除，排序
+      animalslist.append('pig')
+      del animalslist[0]
+      animalslist.sort()
+      for i in range(0,len(animalslist)):
+          print animalslist[i],
 结果：
 
     I don't like these 4 animals...
