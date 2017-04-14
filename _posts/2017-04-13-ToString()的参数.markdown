@@ -1,0 +1,10 @@
+---
+layout: post
+title: "ToString()的参数"
+excerpt: "当你的包里面有多个物体的时候，怎么加载他们呢。"
+categories: [Unity]
+comments: true
+---
+ToString()的用法。
+
+### [点我查看](http://www.cnblogs.com/1971ruru/archive/2012/12/12/2814853.html) 
