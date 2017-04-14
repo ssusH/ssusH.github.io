@@ -5,7 +5,8 @@ excerpt: ""
 categories: [PS]
 author: sush
 comments: true
-
+image:
+  feature: http://i4.buimg.com/567571/d8a00ff34504c488.jpg
 ---
 ## 具体方法如下：
 
