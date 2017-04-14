@@ -1,0 +1,65 @@
+---
+layout: post
+title: "使用Unity自带的寻路工具寻路"
+excerpt: "准备了明天讲课的内容，简单的讲解如何使用Unity里自带的NavMesh系统。"
+categories: [Unity]
+comments: true
+---
+准备了明天讲课的内容，简单的讲解如何使用Unity里自带的NavMesh系统。
+
+
+
+# 思路
+
+
+
+1. 创建网格  
+2. 右键寻路
+
+
+
+## 创建网格
+
+---
+
+把地图的父物体设置成NavigationStatic
+
+再打开Navigation窗口 点击Bake  就可以完成网格的创建
+
+
+
+## 右键寻路
+---
+
+
+右键点击发出射线，获取交点。 然后移动过去。
+
+获取交点的方法
+
+
+
+        if(Input.GetMouseButtonDown(1))
+
+        {
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+
+            if(Physics.Raycast(ray,out hit,100))
+
+            {
+
+                agent.SetDestination(hit.point);
+
+            }
+
+        }
+
+
+
+然后做了一点在德劳内三角网内生成最小生成树的工作。 基本框架已经搭建完毕，只要调试完成即可使用。 明天争取可以把地图生成的。 找出所有有效房间的功能做完。
+
+
+
+饿死了！！回寝！！

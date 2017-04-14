@@ -1,0 +1,71 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(7)"
+excerpt: "在德劳内三角网内生成最小生成树的算法思路"
+categories: [Unity,Delaunay]
+comments: true
+---
+## 在德劳内三角网内生成最小生成树的算法思路
+
+    List<Edges> MinimumSpanningTree(List<Edges> AllEdges,Vector3 starPoints,List<Vector3> _points);
+
+向方法传入，所有的边，启始点，所有点
+
+思路采用的是`普里姆算法`的思路
+
+http://blog.csdn.net/yeruby/article/details/38615045
+
+
+
+### 伪代码
+
+---
+    声明初始点集代表的是最开始包含的所有点
+    声明最后点集代表的是计算过的结点
+    声明结果边列表代表所有选择了的边
+    在最后点集中加入起始点
+    从初始点集中去除起始点
+    while 初始点集数量不为零
+    {
+        设置最小距离为99999
+
+        设置一个临时边变量
+
+        for循环最后点集
+        {
+            for循环所有的边
+            {
+                if(边的起点等于最后点集循环中的点，最后点集中不包含边的终点。或者边的终点等于最后点集循环中的点，最后点集中不包含边的起点)
+                {
+                  临时边等于该边
+                  最小距离等于这条边的距离。
+                }
+            }
+        }
+        所有边中移除临时边
+        结果边列表中加入临时边
+        初始点集中移除临时边的起点终点代表的两个点
+        在最后点集中加入临时边的起点终点两个点
+    }
+
+![](http://imglf0.ph.126.net/4cBicOwLy-fASNCkO0TLdg==/6598061526206733732.png)
+
+然后也完成了链接MainRoom的算法。
+
+要注意的是要监听每一个MainRoom是否停下了。
+
+停下之后再进行操作。
+
+用的关键方法是`rooms.GetComponent<Rigidbody2D>().IsSleeping()`
+
+这个方法可以获取到一个带有RigBody的物体是否静止。
+
+![](http://imglf0.ph.126.net/JP7_fdICTPZJRQ3U4_oyTQ==/1999316759677818903.png)
+
+最终效果如下
+
+![](http://imglf1.ph.126.net/0mpcEO-vrlo2CcJzmzVzPw==/6598140691043755672.png)  
+
+白线为获取的连接线。
+
+下一步就是再在剩下的红线中随机获取几条线。作为其余的走廊。

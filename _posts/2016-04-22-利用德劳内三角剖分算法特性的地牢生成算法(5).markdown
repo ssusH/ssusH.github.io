@@ -1,0 +1,103 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(5)"
+excerpt: ""
+categories: [Unity,Delaunay]
+comments: true
+---
+之前的算法果然还是出问题了，生成的效果完全不符合要求。现在需要重新写一个比较靠谱的算法。
+
+
+![](http://imglf2.ph.126.net/20VQonKfEvDkBOWx2wWZcw==/4888657395611522285.png)
+
+老算法生成效果。
+
+目前打算使用新的`逐点插入算法`，大致思路为
+
+    input: 顶点列表(vertices)
+
+    output:已确定的三角形列表(triangles)
+
+    　　　　初始化顶点列表
+
+    　　　　创建索引列表(indices = new Array(vertices.length))　　　　//indices数组中的值为0,1,2,3,......,vertices.length-1
+
+    　　　　基于vertices中的顶点x坐标对indices进行sort　　  　　　　　  //sort后的indices值顺序为顶点坐标x从小到大排序（也可对y坐标，本例中针对x坐标）
+
+    　　　　确定超级三角形
+
+    　　　　将超级三角形保存至未确定三角形列表（temp triangles）
+
+    　　　　将超级三角形push到triangles列表
+
+    　　　    遍历基于indices顺序的vertices中每一个点//基于indices后，则顶点则是由x从小到大出现
+
+    　　　　{
+
+                        初始化边缓存数组（edge buffer）
+
+    　　　　　　遍历temp triangles中的每一个三角形
+
+                        {
+
+    　　　　　　　　计算该三角形的圆心和半径
+
+    　　　　　　　　如果该点在外接圆的右侧
+
+    　　　　　　　　　　则该三角形为Delaunay三角形，保存到triangles
+
+    　　　　　　　　　　并在temp里去除掉
+
+    　　　　　　　　　　跳过
+
+    　　　　　　　　如果该点在外接圆外（即也不是外接圆右侧）
+
+    　　　　　　　　　　则该三角形为不确定        　　　　　　　　　     //后面会在问题中讨论
+
+    　　　　　　　　　　跳过
+
+    　　　　　　　　如果该点在外接圆内
+
+    　　　　　　　　　　则该三角形不为Delaunay三角形
+
+    　　　　　　　　　　将三边保存至edge buffer
+
+    　　　　　　　　　　在temp中去除掉该三角形
+
+                        }
+
+    　　　　　　对edge buffer进行去重
+
+    　　　　　　将edge buffer中的边与当前的点进行组合成若干三角形并保存至temp triangles中
+
+                    }
+
+    　　　　将triangles与temp triangles进行合并
+
+    　　　　除去与超级三角形有关的三角形
+
+    end
+
+然后其中就涉及到，如何得到超级三角形，如何得到三角形外接圆，如何判断一个点在圆的右边。怎么判断点在三角形内，怎么判断点在圆内。等等问题。
+
+## 如何得到超级三角形
+
+![](http://imglf1.ph.126.net/bp6ZhlHet93lRPndQQ4OVQ==/6631217299286423353.png)
+
+## 如何得到外接圆
+
+![](http://imglf2.ph.126.net/mBGEcTz7Wu4DKKDJKxjWCQ==/6598218756368966141.png)
+
+>这里涉及到一个计算三角形外接圆圆心的通式
+
+![](http://imglf0.ph.126.net/JgOzen4QnZrLQqWz1NhVrw==/4831236500362254312.jpg)
+
+## 如何判断在圆内以及圆的右边
+
+![](http://imglf2.ph.126.net/Qaw-_2kZrA_4Ivld_Sr8Zg==/6598182472485248639.png)
+
+目前思路以及弄清楚了，需要使用的方法也已经完成。接下来的步骤就是把主函数写完整了。
+
+最后放一张预期效果图
+
+![](http://imglf1.ph.126.net/QSngImCxnWKwGB3rTebz3A==/6631260180239901391.png)

@@ -1,0 +1,68 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(3)"
+excerpt: ""
+categories: [Unity,Delaunay]
+comments: true
+---
+思考了几天，今天开始了三角剖分算法的编写。大致思路最终确定如下
+
+1. 获取点集
+
+2. 获取点集外围边界
+  1. 先将点集由X值从大到小排列，从X值最小的点开始作为起始点。做X点向正北方向的向量Vector1，然后找下一点(是否为边界点的点)与起始点的向量Vector2，判断两个向量所成夹角是否最大。如果是，则将该点作为第二个点，并且重复以上过程，直到下一点等于起始点。
+
+3. 根据边界及内部点生成三角网
+
+但是遇到了一个问题，在第二步骤卡壳了，算法在某些情况下就找不出最大角了。只能在第四象限附近找出需要的结果。
+
+![](http://imglf2.ph.126.net/K-kHTdb3n6QL9Ru9T44WXQ==/4918493743142550878.png)
+
+看上去又像是到达一个低点，就上不去了。感觉问题代码部分是
+
+    for (int j = 0; j < points.Count; j++)
+    {
+
+        nextPoint = 0;
+
+        Vector3 angle;
+
+        float angleF = 0, angleFmax =-8f;
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            angle = points[i] - points[nowPoint];          
+            angleF = Vector3.up.x * angle.x + Vector3.up.y * angle.y/Vector3.Magnitude(angle);
+            angleF = Mathf.Acos(angleF);
+            if (angleF > angleFmax && nowPoint != i)
+            {
+                angleFmax = angleF;
+                nextPoint = i;
+            }
+        }
+        edges.Add(new Edges(points[nowPoint], points[nextPoint]));
+        nowPoint = nextPoint;
+    }
+
+這一段，但是又找不出原因。可能是角度计算的语句出了点什么问题。
+还有一点，今天考虑中，觉得这个三角剖分。可以下改变思路，不一定要Delaunay三角拆分，只要是比较合适的三角拆分都可以。 因为这一步的目的，只不过是把离散的各个房间的点，构成一个图。便于到时候给地牢添加走廊而已。
+
+可能也可以节约不必要的代码量，和程序的开销。
+
+还发现了，Vector3.Angle（） 这个方法用来计算两个向量之间的角度很不好用。
+
+还不如直接使用高中知识中计算两个二维向量之间的夹角的方法就好了。
+
+先求出两向量的积，再将两向量积除以他们的模的乘积。
+
+|a|=√[x1^2+y1^2]
+|b|=√[x2^2+y2^2]
+a*b=(x1,y1)(x2,y2)=x1x2+y1y2
+cos=a*b/[|a|*|b|]
+=(x1x2+y1y2)/[√[x1^2+y1^2]*√[x2^2+y2^2]]
+
+得出的COS的值，再用Mathf.Acos（）求反Cos值，就可以得到弧度值的大小了。
+
+![](http://imglf1.ph.126.net/D9b2rGHhua5zcLp68fosvQ==/4825888475804744905.png)
+
+红圈内为圆圈的位置和那条指向上方的线之间的夹角的弧度值。

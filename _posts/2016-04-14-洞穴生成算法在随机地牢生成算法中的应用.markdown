@@ -1,0 +1,103 @@
+---
+layout: post
+title: "洞穴生成算法在随机地牢生成算法中的应用"
+excerpt: "今天是第一篇开发日记。给游戏增加了一个随机生成一个洞穴地形的功能。效果图如下"
+categories: [Unity,C#]
+comments: true
+---
+
+今天是第一篇开发日记。
+
+给游戏增加了一个随机生成一个洞穴地形的功能。效果图如下
+
+![](http://imglf1.ph.126.net/HsUOeCz6Fmg6SUPEqO527g==/4932004542024941833.png)
+
+效果其实并不是特别好，很多地方没有链接起来。是因为在算法运行的过程中把一个个地牢与走廊的联通处给堵塞了。所以现在的效果看上去就像一个个独立的空洞在地牢当中。
+
+## 算法思路。
+
+首先，我们要生成一幅随机地图，我们通过控制随机数的范围分布来实现它。一般情况下，我们采用小于 50% 的几率来生成墙，其余的就是地面。地面是可行走的，而墙则是可碰撞的。
+
+生成后的地图应该是一个二维数组 mapArray，接下来我们开始遍历整个数组的每个元素，采用的规则（我们叫它 4－5 规则）如下：
+
+如果当前元素是墙，那么周围超过 4 个墙就还保持为墙
+
+如果当前元素是地板，那么周围超过 5 个墙就变为墙
+
+循环直至完成
+
+重复循环 4～5 次就可以得到结果
+
+在我的脚本中实现则是这样的。
+
+    public void _cellRoom(Rect room)
+    {
+        //if(room.width*room.height<=LayoutRoom)
+        //{
+        //    return;
+        //}
+        for (int i = (int)room.xMin; i < (int)room.xMax; i++)
+        {
+            for (int j = (int)room.yMin; j < (int)room.yMax; j++)
+            {
+                if(Random.Range(0,100)>50)
+                {
+                    _regions[i, j] = -1;
+                }
+                else
+                {
+                    _regions[i, j] = 99;
+                }
+            }
+          }
+        for(int e = 1;e<=5;e++)
+        {
+            for (int i = (int)room.xMin; i < (int)room.xMax; i++)
+            {
+                for (int j = (int)room.yMin; j < (int)room.yMax; j++)
+                {
+                    int wallsum = 0;
+                    for (int q = -1; q <= 1; q++)
+                    {
+                        for (int w = -1; w <= 1; w++)
+                        {
+                            if (q == 0 && w == 0)
+                            {
+                                continue;
+                            }
+                            if (_regions[i + q, j + w] == -1 || _regions[i + q, j + w] == 0)
+                            {
+                                wallsum++;
+                            }
+                        }
+                    }
+                    if (_regions[i, j] == -1)
+                    {
+                        if (wallsum >= 4)
+                        {
+                            _regions[i, j] = -1;
+                        }
+                        else
+                        {
+                            _regions[i, j] = 99;
+                        }
+                    }
+                    else
+                    {
+                        if (wallsum >= 5)
+                        {
+                            _regions[i, j] = -1;
+                        }      
+                        else
+                        {
+                            _regions[i, j] = 99;
+                        }
+                    }
+                }
+           }            
+        }
+    }
+
+只要在便利所有的房间的时候执行这段代码，就可以把房间变成这样一个洞穴。
+
+标注一下[原文地址](https://indienova.com/indie-game-development/procedural-content-generation-tile-based-random-cave-map/)。

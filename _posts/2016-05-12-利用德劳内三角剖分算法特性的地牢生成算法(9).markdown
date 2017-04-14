@@ -1,0 +1,35 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(9)"
+excerpt: ""
+categories: [Unity,Delaunay]
+comments: true
+---
+
+随机地牢生成系统的基础工作已经完成，就差细节调试了。
+
+让我们先来看看生成效果如何把。
+
+![](http://imglf0.ph.126.net/qZlb5rqYVdtBsTUU545dOw==/6598065924253313061.png)
+
+![](http://imglf0.ph.126.net/IEz25LxO9Y2x0VSAO9S25A==/202099033380394998.png)
+
+![](http://imglf1.ph.126.net/6dOQhrKGzCmQmabDHl_C6g==/6598150586648469334.png)
+
+## 再附带两个动图
+
+![](http://imglf0.ph.126.net/siKLji-KS-h8jHlB4h-ekA==/4861917272824408068.gif)
+
+![](http://imglf1.ph.126.net/YDJoG91hJCfLRDUNrYSLTw==/4826451425758288087.gif)
+
+总之生成的思路就是先生成一大堆房间，然后选出比较大的作为主要房间（红色）。
+
+再联通主要房间，然后所有走廊经过的房间都设置为次要房间（蓝色）。
+
+最后，把所有没用到的房间删除！
+
+
+
+OVER！
+
+今天是5-12. 然后。。默哀。你们懂的。

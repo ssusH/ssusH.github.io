@@ -1,0 +1,64 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(1)"
+excerpt: "今天打算从新学一个地牢生成的算法。因为发现了之前的地牢生成算法的不足之处。之前地牢算法生成的地牢走廊太过去复杂弯曲。感觉如果是这样一个地牢的话游戏体验肯定特别不好。"
+categories: [Unity,Delaunay]
+comments: true
+---
+[原文地址](https://github.com/adonaac/blog/issues/7)  
+今天打算从新学一个地牢生成的算法。因为发现了之前的地牢生成算法的不足之处。之前地牢算法生成的地牢走廊太过去复杂弯曲。感觉如果是这样一个地牢的话游戏体验肯定特别不好。
+![](http://imglf1.ph.126.net/M2O5sEuqcwtn99SY_8durw==/4930597167141414793.png)
+
+如上图，房间的比重和地牢的比重很不和谐。玩家需要走很长的路才能到达一个房间。
+
+所以现在开始打算学一个新的地牢生成算法。效果如下
+
+![](https://github.com/adonaac/blog/raw/master/images/tkd1.gif)
+
+今天了解了第一个步骤，即在一个圆中生成若干个点。然后以这些点为基础生成房间。并且使用物理引擎将他们分散开来。
+
+那么第一步就是在一个圆的范围内生成不同大小的房间
+
+效果如下
+
+![](https://github.com/adonaac/blog/raw/master/images/tkdb1.gif)
+
+这一步的重点就是在圆内生成随机点了。
+
+算法如下
+
+    Vector3 getRandomPointInCircle (float radius)
+
+    {
+
+        if(radius<=0)
+
+        {
+
+            return Vector3.zero;
+
+        }
+
+        float t = 2 * Mathf.PI * Random.Range(0f, 1f);
+
+        float u = Random.Range(0f, 1f)+ Random.Range(0f, 1f);
+
+        float r = u > 1 ? (2 - u) : u;
+
+        return new Vector3(radius * r * Mathf.Cos(t), radius * r * Mathf.Sin(t),0);
+
+    }
+
+然后在Unity中给房间加上碰撞体和刚体组件。他们就会自动的分离了。
+
+效果如下
+
+![](https://github.com/adonaac/blog/raw/master/images/tkdb2.gif)
+
+至于房间大小就用随机函数先随机出相等的长宽，之后再使用百分之50的概率将长度增大或者宽度增大。即可得到一个房间。
+
+以上步骤我的实现效果图如下
+
+![](http://imglf2.ph.126.net/xTOzvzdOxXef1fVONpv7ew==/2873859512316784577.png)
+
+我所参考的原文地址：[Procedural Dungeon Generation](https://github.com/adonaac/blog/issues/7)

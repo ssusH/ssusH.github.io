@@ -1,0 +1,51 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(2)"
+excerpt: "今天接触了一个叫三角剖分算法(delaunay)的东西。
+【定义】三角剖分：假设V是二维实数域上的有限点集，边e是由点集中的点作为端点构成的封闭线段, E为e的集合。那么该点集V的一个三角剖分T=(V,E)是一个平面图G，该平面图满足条件："
+categories: [Unity,Delaunay]
+comments: true
+---
+今天接触了一个叫[三角剖分算法(delaunay)](http://www.cnblogs.com/zhiyishou/p/4430017.html)的东西。
+
+## 三角剖分算法(delaunay)
+
+ 【定义】三角剖分：假设V是二维实数域上的有限点集，边e是由点集中的点作为端点构成的封闭线段, E为e的集合。那么该点集V的一个三角剖分T=(V,E)是一个平面图G，该平面图满足条件：
+
+1. 除了端点，平面图中的边不包含点集中的任何点。
+
+2. 没有相交边。
+
+3. 平面图中所有的面都是三角面，且所有三角面的合集是散点集V的凸包。
+
+## 在实际中运用的最多的三角剖分是Delaunay三角剖分，它是一种特殊的三角剖分。先从Delaunay边说起：
+
+ 1. 【定义】Delaunay边：假设E中的一条边e（两个端点为a,b），e若满足下列条件，则称之为Delaunay边：存在一个圆经过a,b两点，圆内(注意是圆内，圆上最多三点共圆)不含点集V中任何其他的点，这一特性又称空圆特性。
+
+ 2. 【定义】Delaunay三角剖分：如果点集V的一个三角剖分T只包含Delaunay边，那么该三角剖分称为Delaunay三角剖分。
+
+ 3. 【定义】假设T为V的任一三角剖分，则T是V的一个Delaunay三角剖分，当前仅当T中的每个三角形的外接圆的内部不包含V中任何的点。
+
+![](http://imglf0.ph.126.net/VufkVtnrSJO_gywRKwlcjg==/4910893918771352877.png)
+
+大概就是上图这么个效果。
+
+我需要用这个算法去讲地牢生成算法中选择出来的MainRoom 链接起来。
+
+那么这个MainRoom是什么呢。 就是指那种主要的房间。MainRoom的长宽都必须大于所有房间长宽平均值与选择阈值的乘积。)
+
+也就是
+
+    if (_rooms[i].width> roomChooseThreshold*widthAve &&_rooms[i].width>roomChooseThreshold*heightAve)
+    {
+        _rooms[i].mainRoom = true;
+        Room.GetComponent<SpriteRenderer>().color = Color.red;
+    }
+
+代码中我将MainRoom设定成了红色。 生成效果如下。
+
+![](http://imglf1.ph.126.net/LhaRIHI1qmscyGyagaV3bQ==/4852628598592735726.png)
+
+为了便于以后的开发。我也是定义了一个Room的类。里面有着关于Room的信息。便于以后使用。
+
+![](http://imglf0.ph.126.net/G816vTGKiPZOUPsCRXfKrw==/4911175393748069895.png)
