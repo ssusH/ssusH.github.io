@@ -1,0 +1,28 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(12)"
+excerpt: ""
+categories: [Unity,Delaunay]
+comments: true
+---
+
+今天写了布置房间，主要是有一个很关键的点。就是判断门的位置。门要在走廊和房间之间。然而，算法生成的地图，走廊的位置，有时候会是错误的。导致地图布局也产生错误。
+
+先看下以下的几种错误。
+
+图中黄色为走廊，黑色为门，红色为内墙
+
+![](http://imglf2.ph.126.net/rP6Tabep0URExc3E7G1Jvg==/1672805786691849878.png)
+
+![](http://imglf0.ph.126.net/svs1Cgkgw5g8_cSJ22_k_g==/1929792440428774416.png)
+
+![](http://imglf2.ph.126.net/Ms4JGTAq3mxzBB23MMDNEA==/4847280574035747728.png)
+
+![](http://imglf0.ph.126.net/pWZhiocDrokSUjuo1vWkVg==/3760787163931824855.png)
+
+![](http://imglf2.ph.126.net/Cd0nf46SFzxH7QN3qPxuZA==/4946359765837524173.png)
+
+
+大多数情况下，生成的地图是正确的。但是有极少数很难控制的因素会导致错误地图的生成。
+
+所以，寻找一种代价小，效率高的正确的算法。来找到正确的门的位置。或者修正地图错误。是很关键的。之前已经解决了几个小问题了。但是现在的算法还是会偶尔出现错误的情况。

@@ -1,0 +1,67 @@
+---
+layout: post
+title: "利用德劳内三角剖分算法特性的地牢生成算法(13)"
+excerpt: ""
+categories: [Unity,Delaunay]
+comments: true
+---
+
+ok  地牢生成器完成!!!!!
+
+真的完成了
+
+这次真的完成了!!!
+
+把走廊的生成算法优化了。转了个弯换了个思路。然后解决了昨天的问题。
+
+先来看一下这张图
+
+![](http://imglf1.ph.126.net/jLCZRl5S8MolU_wKu-CshQ==/4948048615697803147.png)
+
+这是所有走廊刚刚生成出来时候的效果
+
+随机放大一个房间看一下
+
+![](http://imglf2.ph.126.net/w4X3FQcVY6U8QkkQTYfL2w==/201254608450155149.png)
+
+那么这样的情况，怎么判定这个房间的什么位置上需要放门呢?
+
+就是在红点处
+
+![](http://imglf2.ph.126.net/6tdqJblKVqVl_-RF431aXA==/4871205947055380192.png)
+
+那么，我们扫描一遍房间，最外面一圈，假如是白色的，我们就把他看作是内墙，加入是绿的呢，就变成门。
+
+这样的话，就可以在正确的位置生成门了。然后其他的地方全部设为地板。
+
+来看下另一次生成的某房间效果。
+
+![](http://imglf0.ph.126.net/wpPUGW6cr63AmKUoYNl_yA==/4843339924361826387.png)
+
+这样就生成了正确的门。
+
+
+
+而且，我对走廊生成的判断也进行了优化。大大减小了生成错误走廊的概率。并且添加了最后一道“防线”
+
+假如生成了错误走廊，那么重新生成地图。直到生成一个无误的地图为止。
+
+最后放上两张随机地牢算法生成的地图吧.
+
+![](http://imglf1.ph.126.net/bfXGq2fMHswgsf-HB87-Hw==/1624392090699232162.png)
+
+![](http://imglf0.ph.126.net/6QOri77pXOIPW03czuhqkg==/4856569248267221208.png)
+
+  （最近OW有点中毒!HHH  不过OW真是好玩!!!! 我玩D.VA超强!!!!）
+
+再放两张游戏中效果图。
+
+![](http://imglf.nosdn.127.net/img/M2liUkN3cTlsTitDaDFvNWM2U25MWDhGY2VRdjVWTHQ3c0hFTTQ3L0F0ck5YbUtKeFEreXJBPT0.png?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg)
+
+![](http://imglf0.nosdn.127.net/img/M2liUkN3cTlsTitDaDFvNWM2U25MWHdDK0RQbjBsMGtlUmFsVW5Sb0FrZ0UraWkyWTZTakxRPT0.png?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg)
+
+![](http://imglf2.nosdn.127.net/img/M2liUkN3cTlsTitDaDFvNWM2U25MVE9UNjVhMkxtZUZTUXE2Q2N0b2RxQUpEVDlKS2thRjlRPT0.png?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg)
+
+![](http://imglf2.nosdn.127.net/img/M2liUkN3cTlsTitDaDFvNWM2U25MVS8wL1BQQVdieXRBQVgxQmtKVDFZckdRbkYwNmRZYnRnPT0.png?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg)
+
+目前游戏开发的进度。 
