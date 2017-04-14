@@ -1,4 +1,4 @@
-#
+﻿#
 ###################################
 # Site wide configuration
 ####################################
@@ -6,7 +6,7 @@
 title: sush
 email:
 leftbg: 
-rightbg: 
+rightbg: rightbg.png
 description: 勿忘初心
 url: # the base hostname & protocol for your site
 
@@ -36,7 +36,7 @@ kramdown:
 #
 owner:
   name: 白告君丶
-  avatar: sush.png
+  avatar: sush2.png
   job: "大学狗，程序员，伪文青"
   bio: "死后自会长眠"
   email:

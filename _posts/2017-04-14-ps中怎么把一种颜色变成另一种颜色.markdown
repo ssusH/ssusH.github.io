@@ -1,0 +1,20 @@
+---
+layout: post
+title: "ps中怎么把一种颜色变成另一种颜色"
+excerpt: ""
+categories: [PS]
+author: sush
+comments: true
+
+---
+## 具体方法如下：
+
+1.点击ps菜单栏中的“图像”，在下拉菜单中选择“调整”，“替换颜色”
+
+![](https://gss0.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=4c9a7d4dd23f8794d3aa4028e22b22cc/a6efce1b9d16fdfa718e581bb28f8c5495ee7b61.jpg)
+
+2.点击“替换颜色”调整对话框里面的第一个小吸管，在桔子上吸一下。拉动颜色容差后面的小滑块增加颜色的容差值。
+
+3.然后拉动“替换颜色”调整对话框里面的色相小滑块到合适的位置，并拉动饱和度和明度小滑块进行微调，完成。
+
+![](https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=ba57ef6c8426cffc697fb7b4893166a8/7e3e6709c93d70cf36d533f8fedcd100baa12b13.jpg)
