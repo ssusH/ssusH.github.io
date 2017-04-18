@@ -1,0 +1,47 @@
+---
+layout: post
+title: "Unity中批量生成Prefab"
+excerpt: "当你的工程里面有多个物体需要制作Prefab的时候，怎么批量生成他们呢。"
+categories: [Unity]
+comments: true
+---
+今天来说说，如何批量生成Prefab的问题。
+假如说你的工程里面有多个物体需要制作Prefab的时候，怎么批量生成他们呢。
+显然，一个个的用手拖动是不明智的选择。
+
+这时候，我们需要用到`编辑器脚本`了。
+
+借用编辑器脚本，来批量处理游戏物体。
+
+脚本如下：
+
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using UnityEditor;
+
+    public class BatchPrefab : MonoBehaviour {
+
+    [MenuItem("Tools/BatchPrefab All Children")]
+    public static void BatchPrefabs()
+    {
+
+        Transform tParent = ((GameObject)Selection.activeObject).transform;
+        Object tempPrefab;
+        int i = 0;
+        foreach (Transform child in tParent)
+        {
+            tempPrefab = EditorUtility.CreateEmptyPrefab("Assets/Prefab/Prefab" + child.name + ".prefab");
+            tempPrefab = EditorUtility.ReplacePrefab(child.gameObject, tempPrefab);
+            i++;
+        }
+
+    }
+    }
+
+
+使用方法:将你的游戏物体放到场景中，选中其父节点。然后在菜单栏`Tools/BatchPrefab All Children` 点击。
+
+编辑器便会自动开始生成Prefab。
+
+脚本思路：就是便利父物体以下的子物体。先创建一个空的Prefab，然后将子物体放进空Prefab中生成需要的Prefab。
