@@ -1,0 +1,177 @@
+---
+layout: post
+title: "Python学习日记(2)"
+excerpt: "1.set的作用 2.input()和raw_input() 3.可变参数 4.print的一些用法注意"
+categories: [Python]
+comments: true
+image:
+  feature:
+---
+## 1.set的作用
+dict的作用是建立一组 key 和一组 value 的映射关系，dict的key是不能重复的。
+
+有的时候，我们只想要 dict 的 key，不关心 key 对应的 value，目的就是保证这个集合的元素不会重复，这时，set就派上用场了。
+
+set 持有一系列元素，这一点和 list 很像，但是set的元素没有重复，而且是无序的，这点和 dict 的 key很像。
+
+创建 set 的方式是调用 set() 并传入一个 list，list的元素将作为set的元素：
+
+    >>>s = set(['A', 'B', 'C'])
+
+请注意，上述打印的形式类似 list， 但它不是 list，仔细看还可以发现，打印的顺序和原始 list 的顺序有可能是不同的，因为set内部存储的元素是无序的。
+
+因为set不能包含重复的元素，所以，当我们传入包含重复元素的 list 会怎么样呢？
+
+    >>> s = set(['A', 'B', 'C', 'C'])
+    >>> print s
+    set(['A', 'C', 'B'])
+    >>> len(s)
+    3
+
+## 2.input()和raw_input()
+
+### raw_input函数
+raw_input() 函数从标准输入读取一个行，并返回一个字符串（去掉结尾的换行符）可以用来输入字符串   
+### input()
+函数和raw_input() 函数基本可以互换，但是input会假设你的输入是一个有效的Python表达式，并返回运算结果。这应该是两者的最大区别。
+
+## 3.可变参数
+如果想让一个函数能接受任意个参数，我们就可以定义一个可变参数：
+
+    def fn(*args):
+        print args
+
+可变参数的名字前面有个 * 号，我们可以传入0个、1个或多个参数给可变参数：
+
+    >>> fn()
+    ()
+    >>> fn('a')
+    ('a',)
+    >>> fn('a', 'b')
+    ('a', 'b')
+    >>> fn('a', 'b', 'c')
+    ('a', 'b', 'c')
+可变参数也不是很神秘，Python解释器会把传入的一组参数组装成一个tuple传递给可变参数，因此，在函数内部，直接把变量 args 看成一个 tuple 就好了。
+
+定义可变参数的目的也是为了简化调用。假设我们要计算任意个数的平均值，就可以定义一个可变参数：
+
+    def average(*args):
+        ...
+这样，在调用的时候，可以这样写：
+
+    >>> average()
+    0
+    >>> average(1, 2)
+    1.5
+    >>> average(1, 2, 2, 3, 4)
+    2.4
+
+使用例子：
+    # -*- coding: utf-8 -*-
+    #请编写接受可变参数的 average() 函数。
+    #-------------------------------------------------
+    def average(*args):
+        i = 0.0
+        _sum = 0.0
+        for a in args:
+            _sum+=a
+            i+=1
+        if i == 0:
+            return i
+        else:
+            return _sum/i
+
+    print average()
+    print average(1, 2)
+    print average(1, 2, 2, 3, 4)
+
+## 4.print的一些用法注意
+
+字符串 'xxx'和 Unicode字符串 u'xxx'也可以看成是一种list，每个元素就是一个字符。因此，字符串也可以用切片操作，只是操作结果仍是字符串：
+
+    >>> 'ABCDEFG'[:3]
+    'ABC'
+    >>> 'ABCDEFG'[-3:]
+    'EFG'
+    >>> 'ABCDEFG'[::2]
+    'ACEG'
+在很多编程语言中，针对字符串提供了很多各种截取函数，其实目的就是对字符串切片。Python没有针对字符串的截取函数，只需要切片一个操作就可以完成，非常简单。
+
+### 所以字符串切片之后可以直接用`+`连接
+
+比如可以这样使用
+    #字符串有个方法 upper() 可以把字符变成大写字母：
+
+    #>>> 'abc'.upper()
+    #'ABC'
+    #但它会把所有字母都变成大写。请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。
+
+    #提示：利用切片操作简化字符串操作
+    #-------------------------------------------------
+    def firstCharUpper(s):
+        return s[:1].upper()+s[1:]
+
+    print firstCharUpper('hello')
+    print firstCharUpper('sunday')
+    print firstCharUpper('september')
+
+结果为：
+
+    Hello
+    Sunday
+    September
+
+如果使用`，`连接的话则会出现一个空缺
+
+    #字符串有个方法 upper() 可以把字符变成大写字母：
+
+    #>>> 'abc'.upper()
+    #'ABC'
+    #但它会把所有字母都变成大写。请设计一个函数，它接受一个字符串，然后返回一个仅首字母变成大写的字符串。
+
+    #提示：利用切片操作简化字符串操作
+    #-------------------------------------------------
+    def firstCharUpper(s):
+        print s[:1].upper(),s[1:]
+        return
+
+    print firstCharUpper('hello')
+    print firstCharUpper('sunday')
+    print firstCharUpper('september')
+
+结果为：
+
+    H ello
+    None
+    S unday
+    None
+    S eptember
+    None
+
+## 5.索引迭代
+Python中，迭代永远是取出元素本身，而非元素的索引。
+
+对于有序集合，元素确实是有索引的。有的时候，我们确实想在 for 循环中拿到索引，怎么办？
+
+方法是使用 enumerate() 函数：
+
+    >>> L = ['Adam', 'Lisa', 'Bart', 'Paul']
+    >>> for index, name in enumerate(L):
+    ...     print index, '-', name
+    ...
+    0 - Adam
+    1 - Lisa
+    2 - Bart
+    3 - Paul
+使用 enumerate() 函数，我们可以在for循环中同时绑定索引index和元素name。但是，这不是 enumerate() 的特殊语法。实际上，enumerate() 函数把：
+
+    ['Adam', 'Lisa', 'Bart', 'Paul']
+变成了类似：
+
+    [(0, 'Adam'), (1, 'Lisa'), (2, 'Bart'), (3, 'Paul')]
+
+>这里for循环两个参数是因为匹配了元祖内的两个值，元祖可以看成是一个完整的数据结构里面有若干个值可以去匹配
+
+for 循环可作用的迭代对象远不止 list，tuple，str，unicode，dict等，任何可迭代对象都可以作用于for循环，而内部如何迭代我们通常并不用关心。
+
+如果一个对象说自己可迭代，那我们就直接用 for 循环去迭代它，可见，迭代是一种抽象的数据操作，它不对迭代对象内部的数据有任何要求。
