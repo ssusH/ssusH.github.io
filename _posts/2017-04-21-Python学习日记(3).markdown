@@ -1,0 +1,97 @@
+---
+layout: post
+title: "Python学习日记(3)"
+excerpt: "1.items()和iteritems()2.isinstance()3.map()4.reduce()5.filter()6.strip()7.math.modf()8. sorted()9.lambda关键字"
+categories: [Python]
+comments: true
+image:
+  feature:http://i4.buimg.com/567571/4c3ba5cc93aaceba.png
+---
+## 1.items()和iteritems()
+说明：items以列表方式返回字典中的键值对，iteritems以迭代器对象 返回键值对儿(Python3中不再支持）；
+
+## 2.[isinstance()](http://baike.baidu.com/link?url=omOjnad6d9GeA4bJpo9e9anUmvbKsVF-5oNL3st4EHALaUSTuCgPimfTdzoGabROKROtKfDxPvFjdiddmyx3To7QOjgePLlUpQCroErxu_S)
+Python 中的isinstance函数，isinstance是Python中的一个内建函数。是用来判断一个对象是否是一个已知的类型。
+
+isinstance(object, classinfo)
+如果参数object是classinfo的实例，或者object是classinfo类的子类的一个实例， 返回True。如果object不是一个给定类型的的对象， 则返回结果总是False。
+
+## 3.map()  
+map()是 Python 内置的高阶函数，它接收一个函数 f 和一个 list，并通过把函数 f 依次作用在 list 的每个元素上，得到一个新的 list 并返回。
+
+## 4.reduce()
+reduce()函数也是Python内置的一个高阶函数。reduce()函数接收的参数和 map()类似，一个函数 f，一个list，但行为和 map()不同，reduce()传入的函数 f 必须接收两个参数，reduce()对list的每个元素反复调用函数f，并返回最终结果值。
+
+## 5.filter()
+filter()函数是 Python 内置的另一个有用的高阶函数，filter()函数接收一个函数 f 和一个list，这个函数 f 的作用是对每个元素进行判断，返回 True或 False，filter()根据判断结果自动过滤掉不符合条件的元素，返回由符合条件元素组成的新list。
+
+## 6.strip()
+s.strip(rm) 删除 s 字符串中开头、结尾处的 rm 序列的字符。
+
+当rm为空时，默认删除空白符（包括'\n', '\r', '\t', ' ')，如下：
+
+    a = '     123'
+    a.strip()
+结果： '123'
+
+    a='\t\t123\r\n'
+    a.strip()
+结果：'123'
+
+## 7.math.modf()
+
+modf() 方法返回x的整数部分与小数部分，两部分的数值符号与x相同，整数部分以浮点型表示。
+
+    import math   # This will import math module
+
+    print "math.modf(100.12) : ", math.modf(100.12)
+    print "math.modf(100.72) : ", math.modf(100.72)
+    print "math.modf(119L) : ", math.modf(119L)
+    print "math.modf(math.pi) : ", math.modf(math.pi)
+
+以上实例运行后输出结果为：  
+
+    math.modf(100.12) :  (0.12000000000000455, 100.0)  
+    math.modf(100.72) :  (0.71999999999999886, 100.0)  
+    math.modf(119L) :    (0.0, 119.0)  
+    math.modf(math.pi) :  (0.14159265358979312, 3.0)  
+
+## 8. sorted()
+Python内置的 sorted()函数可对list进行排序：
+
+    >>>sorted([36, 5, 12, 9, 21])
+
+    [5, 9, 12, 21, 36]
+但 sorted()也是一个高阶函数，它可以接收一个比较函数来实现自定义排序，比较函数的定义是，传入两个待比较的元素 x, y，如果 x 应该排在 y 的前面，返回 -1，如果 x 应该排在 y 的后面，返回 1。如果 x 和 y 相等，返回 0。
+
+因此，如果我们要实现倒序排序，只需要编写一个reversed_cmp函数：
+
+    def reversed_cmp(x, y):
+        if x > y:
+            return -1
+        if x < y:
+            return 1
+        return 0
+这样，调用 sorted() 并传入 reversed_cmp 就可以实现倒序排序：
+
+    >>> sorted([36, 5, 12, 9, 21], reversed_cmp)
+    [36, 21, 12, 9, 5]
+
+
+## 9.lambda关键字
+
+关键字lambda 表示匿名函数，冒号前面的 x 表示函数参数。
+
+匿名函数有个限制，就是只能有一个表达式，不写return，返回值就是该表达式的结果。
+
+使用匿名函数，可以不必定义函数名，直接创建一个函数对象，很多时候可以简化代码：
+
+    >>> sorted([1, 3, 9, 5, 0], lambda x,y: -cmp(x,y))
+    [9, 5, 3, 1, 0]
+返回函数的时候，也可以返回匿名函数：
+
+    >>> myabs = lambda x: -x if x < 0 else x
+    >>> myabs(-1)
+    1
+    >>> myabs(1)
+    1
