@@ -1,0 +1,39 @@
+---
+layout: post
+title: "Python学习日记(4)"
+excerpt: "1.items()和iteritems()2.isinstance()3.map()4.reduce()5.filter()6.strip()7.math.modf()8. sorted()9.lambda关键字"
+categories: [Python]
+comments: true
+image:
+  feature: http://i4.buimg.com/567571/4c3ba5cc93aaceba.png
+---
+## 1.python中初始化实例属性
+
+    # -*- coding: utf-8 -*-
+    #################################################
+    ##请定义Person类的__init__方法，
+    ##除了接受 name、gender 和 birth 外，
+    ##还可接受任意关键字参数，
+    ##并把他们都作为属性赋值给实例。
+    #################################################
+    class Person(object):
+
+        def __init__(self,name,gender,birth,**kw):
+            self.name = name
+            self.gender = gender
+            self.birth = birth
+            for k, v in kw.iteritems():
+                setattr(self, k, v)
+
+    xiaoming = Person('Xiao Ming', 'Male', '1990-1-1', job='Student')
+
+    print xiaoming.name
+    print xiaoming.job
+
+如上代码，如果在初始化实例属性的时候
+1. 需要`__init__`方法
+2. `__init__`方法必须要有`self`参数
+3. 要可以接受任意关键字参数，则要添加`**kw`参数
+
+添加`**kw`参数之后，便可以再传入参数的时候添加任意关键字参数了。
+该方法适用与其他需要接受任意关键字参数的情况  
