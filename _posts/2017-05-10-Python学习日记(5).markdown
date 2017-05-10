@@ -1,0 +1,166 @@
+---
+layout: post
+title: "Python学习日记(5)"
+excerpt: "1.python 中的限制访问，2.类属性，3.类方法，4.Pythn中的继承，5.详解任意额外的关键字参数，6.特殊方法"
+categories: [Python]
+comments: true
+image:
+  feature: http://i4.buimg.com/567571/4c3ba5cc93aaceba.png
+---
+## 1.python 中的限制访问
+这个概念就类似其他语言中的私有属性。  
+其他语言一般使用private进行修饰，但是在python里Python对属性权限的控制是通过属性名来实现的，如果一个属性由双下划线开头(__)，该属性就无法被外部访问。看例子：
+
+    class Person(object):
+        def __init__(self, name, score):
+            ???
+
+    p = Person('Bob', 59)
+
+    print p.name
+    print p.__score
+
+这样的话__score就无法从外部访问了。  
+
+---
+## 2.类属性
+
+类属性就是一个类当中，你可能需要一个类的全局变量。就有点类似一个静态的属性。但是你又可以对这个属性进行改变。也就是如果在类上绑定一个类属性，则所有实例都可以访问类的属性，并且，所有实例访问的类属性都是同一个！也就是说，实例属性每个实例各自拥有，互相独立，而类属性有且只有一份。 看例子：
+
+    class Person(object):
+        count = 0
+        def __init__(self, name):
+            Person.count+=1
+            self.name = name
+
+    p1 = Person('Bob')
+    print Person.count
+
+    p2 = Person('Alice')
+    print Person.count
+
+    p3 = Person('Tim')
+    print Person.count
+
+这样的话，我们可以看到，每增加一个实例，count就加一。并且随时可以通过类名访问到该属性。
+
+但是假如说实例属性和类属性同名了，相互冲突，那么实例属性的优先级高于类属性。比如：
+
+    class Person(object):
+        address = 'Earth'
+        def __init__(self, name):
+            self.name = name
+
+    p1 = Person('Bob')
+    p2 = Person('Alice')
+
+    print 'Person.address = ' + Person.address
+
+    p1.address = 'China'
+    print 'p1.address = ' + p1.address
+
+    print 'Person.address = ' + Person.address
+    print 'p2.address = ' + p2.address
+
+
+这时候输出的P1地址就会是China  
+
+---
+## 3.类方法
+和类属性类似，类方法也是一个直接可以通过类名访问的方法。
+
+要在class中定义类方法，需要这么写：
+
+    class Person(object):
+        count = 0
+        @classmethod
+        def how_many(cls):
+            return cls.count
+        def __init__(self, name):
+            self.name = name
+            Person.count = Person.count + 1
+
+    print Person.how_many()
+    p1 = Person('Bob')
+    print Person.how_many()
+
+记住类方法的第一个属性必须是`cls`。且记得要加上修饰符`@classmethod`
+
+---
+## 4.Pythn中的继承
+如果已经定义了Person类，需要定义新的Student和Teacher类时，可以直接从Person类继承：
+
+    class Person(object):
+        def __init__(self, name, gender):
+            self.name = name
+            self.gender = gender
+
+定义Student类时，只需要把额外的属性加上，例如score：
+
+    class Student(Person):
+        def __init__(self, name, gender, score):
+            super(Student, self).__init__(name, gender)
+            self.score = score
+一定要用` super(Student, self).__init__(name, gender) `去初始化父类，否则，继承自 Person 的 Student 将没有 name 和 gender。
+
+函数super(Student, self)将返回当前类继承的父类，即 Person ，然后调用__init__()方法，注意self参数已在super()中传入，在__init__()中将隐式传递，不需要写出（也不能写）。
+
+**并且继承的类的类型，可以是他的父类型，但是继承链上，一个父类的实例不能是子类类型，因为子类比父类多了一些属性和方法。**
+
+### 多态
+
+对于类的父类的一些方法进行重写就是多态了。
+
+### 多重继承
+
+Python支持多重继承，一个类可以继承多个父类。从而达到对多个父类当中的功能的支持。在实例化的过程中，会逐层的调用__init__方法。先从最底层的祖先哪里调用，然后逐层向上。
+
+---
+##  5.详解任意额外的关键字参数
+
+    class Person(object):
+
+        def __init__(self, name, gender, **kw):
+            self.name = name
+            self.gender = gender
+            for k,v in kw.iteritems():
+                setattr(self,k,v)
+
+    p = Person('Bob', 'Male', age=18, course='Python')
+    print p.age
+    print p.course
+
+其中setattr
+
+    >>> getattr(s, 'name')  # 获取name属性
+    'Bob'
+
+    >>> setattr(s, 'name', 'Adam')  # 设置新的name属性
+
+    >>> s.name
+    'Adam'
+
+    >>> getattr(s, 'age')  # 获取age属性，但是属性不存在，报错：
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    AttributeError: 'Student' object has no attribute 'age'
+
+    >>> getattr(s, 'age', 20)  # 获取age属性，如果属性不存在，就返回默认值20：
+    20
+
+这样我们可以知道，这个任意添加额外关键字是通过**kw来接收任意个关键字，kw接受的数据是程序员输入的键值对，然后通过iteritems（）来提取出来。再用K,V去接受。用setattr来添加属性。
+
+---
+## 6.特殊方法
+
+Python当中有很多特殊方法，我们可以通过对特殊方法重写来达到我们想要的功能。
+
+比如：`__str__`,`__repr__`,`__cmp__`,`__len__`,`__add__`,`__sub__`,`__mul__`,`__div__`,`__int__`,`__float__`
+
+这些特殊方法涵盖了其他语言中比如运算符重载，基础的函数重写的功能。
+
+比如`__add__`,`__sub__`,`__mul__`,`__div__`这四个特殊方法就是对+-*/四个运算符进行重载
+
+`__str__`,`__cmp__`,`__len__`这些分别是对print，sorted，len三个函数的功能进行重写
+
+`__int__`,`__float__`是对类型转换函数int，float进行重写
