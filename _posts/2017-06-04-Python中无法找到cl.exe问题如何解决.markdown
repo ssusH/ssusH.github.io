@@ -1,0 +1,38 @@
+---
+layout: post
+title: "Python中pip安装报错找不到cl.exe的问题如何解决"
+excerpt: "我们在安装一些python的包的时候，有时候会遇到各种各样的问题，比如说因为环境变量配置不对而导致的找不到需要的程序。那么我们知道，现在大多数人用的都是VS2015，可是也有少部分人使用的是vs2017，就比如说我。
+那在使用vs2017的时候，由于有一些环境变量配置的问题。就会出现，python需要一个程序的支持，但是vs2015中和vs2017中，这个程序的位置不同。导致的pip安装某些包的时候失败。。等问题。"
+categories: [Python]
+comments: true
+image:
+  feature:http://img.zuciwang.com/img.php?tag=a&url=mmbiz.qpic.cn/mmbiz_png/YibiapYscicgicQ6IusAqcVgABOibSLul0uY1sCSVCIwgpEYibyJb46cKXvzwuNfdn1mDLFyY5wIDZFeMch9WfEkYnBg/0?wx_fmt=png
+---
+我们在安装一些python的包的时候，有时候会遇到各种各样的问题，比如说因为环境变量配置不对而导致的找不到需要的程序。那么我们知道，现在大多数人用的都是VS2015，可是也有少部分人使用的是vs2017，就比如说我。
+
+那在使用vs2017的时候，由于有一些环境变量配置的问题。就会出现，python需要一个程序的支持，但是vs2015中和vs2017中，这个程序的位置不同。导致的pip安装某些包的时候失败。。等问题。  
+
+首先说明一下cl.exe是Microsoft C/C++编译器。
+
+这里我提一点，关于，Python中pip安装报错找不到cl.exe的问题改如何解决。
+
+1. 在环境变量中Path 那一项中添加两个路径：
+F:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\bin\HostX86\x86
+F:\Microsoft Visual Studio\2017\Community\Common7\IDE
+
+2. 在环境变量中新建一个LIB 变量，并添加三个路径（记得加分号）：
+F:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\lib\x86;
+C:\Program Files (x86)\Windows Kits\10\Lib\10.0.14393.0\ucrt\x86;
+C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86;
+
+3. 在环境变量中新建一个INCLUDE 变量，并添加两个路径（记得加分号）：
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt;
+F:\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.25017\include;
+
+4. 在F:\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build这个路径中点击vcvarsall.bat 这个批处理程序。
+之后打开命令行，输入cl，如果出现下图，则配置成功……  
+![](http://img.zuciwang.com/img.php?tag=a&url=mmbiz.qpic.cn/mmbiz_png/YibiapYscicgicQ6IusAqcVgABOibSLul0uY1sCSVCIwgpEYibyJb46cKXvzwuNfdn1mDLFyY5wIDZFeMch9WfEkYnBg/0?wx_fmt=png)
+
+**上述路径和你安装vs2017的路径有关，请自行比较配置**
+
+[参考文章](https://zuciwang.com/show/229362.html)
