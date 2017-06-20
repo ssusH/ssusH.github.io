@@ -1,0 +1,23 @@
+---
+layout: post
+title: "Python学习日记(6)"
+excerpt: ""
+categories: [Python]
+comments: true
+image:
+  feature: http://i4.buimg.com/567571/4c3ba5cc93aaceba.png
+---
+## 1.python 中的限制访问
+这个概念就类似其他语言中的私有属性。  
+其他语言一般使用private进行修饰，但是在python里Python对属性权限的控制是通过属性名来实现的，如果一个属性由双下划线开头(__)，该属性就无法被外部访问。看例子：
+
+    class Person(object):
+        def __init__(self, name, score):
+            ???
+
+    p = Person('Bob', 59)
+
+    print p.name
+    print p.__score
+
+这样的话__score就无法从外部访问了。  
