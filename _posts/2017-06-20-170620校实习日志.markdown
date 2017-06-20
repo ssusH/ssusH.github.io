@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "校实习日志170620"
-excerpt: ""
-categories: [Python,Scrapy]
+excerpt: "6月20日校实习日志"
+categories: [Log]
 comments: true
 ---
 
