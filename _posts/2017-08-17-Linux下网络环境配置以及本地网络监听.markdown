@@ -1,0 +1,101 @@
+---
+layout: post
+title: "Linux下网络环境配置以及本地网络监听"
+excerpt: "首先，我们的机器上要有一块网卡，如果是虚拟机，要有一块虚拟网卡。并且硬件网卡要确认配置正确了，这是我们后续工作能有所保障的第一步。  
+
+所以，请确认，你的网卡存在，并且处于正确的网段中。（也就是网线连接正确了）  
+
+然后我们要做的就是找到Linux系统下网卡配置文件  
+那么我们要先看看自己机器上的网卡的序号是多少，因为不一定你的网卡就是eth0，也有可能是eth1、eth2之类的。"
+categories: [Linux]
+comments: true
+
+---
+
+##Linux下网络环境搭建，以及网络监听
+
+目录：  
+1. 配网卡  
+2. 配静态IP      
+3. 网络监听  
+4. IPtables
+
+---
+
+### 1.配网卡  
+
+首先，我们的机器上要有一块网卡，如果是虚拟机，要有一块虚拟网卡。并且硬件网卡要确认配置正确了，这是我们后续工作能有所保障的第一步。  
+
+所以，请确认，你的网卡存在，并且处于正确的网段中。（也就是网线连接正确了）  
+
+然后我们要做的就是找到Linux系统下网卡配置文件  
+那么我们要先看看自己机器上的网卡的序号是多少，因为不一定你的网卡就是eth0，也有可能是eth1、eth2之类的。  
+
+所以我们输入命令：**ifconfig -a**  
+
+lo网卡，lo代表127.0.0.1，即localhost  
+其余的网卡，就是你机器上配置的了的网卡，同时你还可以看到他们的配置信息。
+
+下一步就是找到你要的配置的网卡的配置文件，并且配置它就可以了。
+
+**不同系统的网卡配置文件地址：**
+
+*centOS：/etc/sysconfig/network-script/ifcfg-eth?(?表示网卡的编号)*
+
+*ubantu：/etc/network/interfaces*
+
+### 2.配静态ip  
+
+配ip同样是介绍两种linux系统的配置方法。  
+
+**centOS：**  
+
+vi编辑器打开配置文件后，输入以下内容。
+
+		DEVICE=eth0         #网卡对应的设备别名
+		BOOTPROTO=static   #网卡获得ip地址的方式（默认为dhcp，表示自动获取）
+		HWADDR=00:07:E9:05:E8:B4   #网卡MAC地址（物理地址）
+		IPADDR=192.168.100.100   #IP地址
+		NETMASK=255.255.255.0     #子网掩码 
+		ONBOOT=yes     #系统启动时是否激活此设备
+
+
+保存退出  
+然后重启网卡 **service network restart**
+
+**ubantu：**
+
+vi编辑器打开配置文件，输入以下内容：
+
+		auto eth0
+		iface eth0 inet static
+		address 192.168.1.100
+		netmask 255.255.255.0
+		gateway 192.168.1.1
+
+保存退出  
+重启网卡：**1. sudo /etc/init.d/networking restart**  
+**2.关闭网卡ifdown eth0  
+开启网卡 ifup eth0**
+
+
+####　ps：[IP分配及网段划分](http://www.cnblogs.com/liujiaknowledge/p/5070153.html "IP分配及网段划分")  
+
+### 网络监听
+
+网络监听通常使用两个命令 **[nc](http://blog.csdn.net/wang7dao/article/details/7684998)** 和 **[tcpdump](https://baike.baidu.com/item/TCPDUMP/1383003?fr=aladdin)**
+
+nc记录的是经过了防火墙的包的数据。而tcpdump是记录从网卡上抓到的包，也就是没有经过iptables的包。  
+
+常用的最简单的命令：
+
+		nc -l 8088 #监听8088端口的tcp数据 
+		nc -l -u 8088 # 监听8088端口的udp数据  
+		tcpdump -i eth0 tcp port 8088 #监听网卡eth0接收的发给8088端口的tcp包 
+		tcpdump -i eth0 udp port 8088 #监听网卡eth0接收的发给8088端口的udp包  
+
+#### **[iptables](http://blog.chinaunix.net/uid-26495963-id-3279216.html)**  
+
+查看iptables表命令：**iptables -nL**
+
+[百度百科:iptables](https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin)
