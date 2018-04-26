@@ -1,0 +1,125 @@
+---
+layout: post
+title: "如何搭建本地Jekyll调试环境"
+excerpt: "今天写一下，关于如何搭建一个本地的jekyll运行环境的。"
+categories: [Jekyll]
+author: sush
+comments: true
+
+---
+
+今天写一下，关于如何搭建一个本地的jekyll运行环境的。
+
+## 安装Ruby环境
+首先，我们知道jekyll 是Ruby 的一个gem包。
+
+所以我们要使用jekyll ，需要先安装Ruby的运行环境。这里我们需要两个东西。
+一个是Ruby的安装包，一个是Ruby的DevKit
+
+下载地址如下:[Ruby官网](https://rubyinstaller.org/downloads/)。
+
+这里我们使用的是2.3.3版本的Ruby安装包。[Ruby 2.3.3 (x64)](https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.3-x64.exe)
+
+然后使用对应的DevKit包，一定要与你安装的版本对应。这里因为我使用的是2.3.3，所以安装对应的[Ruby 2.0 to 2.3 (x64 - 64bits only)](https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe)  安装包。
+
+这里要注意一点这里我使用的DevKit安装包需要使用7z 解压。请自行下载。
+
+两个都安装好之后，用CMD进到DevKit安装目录下。
+
+执行两条命令。
+
+**ruby dk.rb init**
+
+**ruby dk.rb install**
+
+这一步会提示这个错误：Invalid configuration or no Rubies listed. Please fix ‘config.yml’ and rerun ‘ruby dk.rb install’
+
+解决办法：编辑devkit目录下面的config.yml，最下面增加一行ruby安装路径。
+
+![enter description here](./images/TIM截图20180426181158_2.png)
+
+这样，Ruby环境就算初步搭好了。
+
+## 设置gem的镜像地址
+
+环境搭好之后，我们需要了解一个东西，那就是gem
+
+gem是Ruby的一个下载工具。可以使用命令去下在Ruby中的包。
+
+常用命令：
+
+gem install [包名]
+
+gem install -v [版本号] [包名]  
+
+gem uninstall [包名]
+
+等等
+
+但是我们有一个问题，那就是gem的官方服务器不在国内。我们有时候下载东西的时候，会速度很慢。
+
+所以这里我们就要引入淘宝的gem镜像。
+
+这个国内的镜像，基本上有所有的gem包。然后下载速度很块，所以我们把。我们gem的源替换掉。
+
+输入命令
+```
+gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
+gem sources -l
+```
+
+如果你看到了
+~~~
+*** CURRENT SOURCES ***
+
+https://gems.ruby-china.org
+~~~
+
+说明源替换成功了。
+但是你也有可能会遇到一个关于https的问题，就是我们添加的https的源的地址，无法使用。那么只要替换成http就可以了。
+
+也就是
+`gem sources --add http://gems.ruby-china.org/ --remove https://rubygems.org/`
+
+## 安装相关的gem包
+替换好源地址之后，我们就可以安装最重要的jekyll的gem 包了。
+
+他是我们整个工作的核心。
+
+我们知道 如果要安装jekyll包，只需要输入 `gem install jekyll`
+
+但是在安装jekyll包之前，我们还需要安装一些其他的包，以确保jekyll的工作可以顺利运行。也就是要安装jekyll包的依赖包。和一些最基础的Ruby的包。
+输入：
+~~~
+gem install bundler
+gem install mongo
+~~~
+
+安装两个包
+
+然后再输入 gem install jekyll  来安装我们的jekyll
+
+到这里，我们的安装就算完成了。
+
+如果你有一个jekyll的项目，那么你只需要CMD进到项目目录，然后输入 jekyll server 就可以在本地调试你的jekyll项目了。
+
+但是很多同学会因为项目的差异性而遇到很多不同的问题，这里简单说两点。
+
+1.缺少某个gem包
+  如果是缺少包，这个比较好办，你就按照错误提示，去下载相对应的包即可。用上面提到的，gem install -v X.X.X XXX  可以下载到需要的包的对应版本。
+  
+  
+2.gem包的版本和运行所需要的版本不一致，高于所需或者低于所需
+
+如果遇到这个问题，有两个解决办法，一是卸载不对应的版本，然后重新下载gem包。
+
+第二个就是比如错误提示你 Prepending `bundle exec` to your command may solve this  
+
+那么你可以在 jekyll server命令前加上 bundle exec 来强行用不一致的版本运行。  也就是输入bundle exec jekyll server
+
+如果说有些gem包，你找不到，那大概是你找错名字了，或者他改名了。
+用 gem search 也可以搜索到和关键词相关的gem包
+
+具体问题具体解决，多思考多上网搜索解决犯案。相信你可以很容易搭建好jekyll的本地运行环境的。
+
+下次有机会在来教大家，如何使用github的服务器以及自购域名来搭建属于自己的个人主页。
