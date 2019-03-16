@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Unity中怎么删除一个物体的所有子物体"
+excerpt: "删除一个物体的所有子物体"
+categories: [Unity]
+author: sush
+comments: true
+
+---
+
+今天写一下，关于如何删除一个物体的所有子物体
+
+## 涉及两个方法即可
+
+一个是Transform.childCount
+一个是TransForm.getChild()
+
+只需要先获得子物体数量，再遍历删除就可以拉！
